@@ -119,29 +119,37 @@ $(document).ready(function () {
                 }
             })
         },
-
+//event click to update
         eventClick:function(event)
-        {
-            if(confirm("Are you sure you want to remove it?"))
+        {            
+            var title = prompt('Event Title:');
+
+            if(title)
             {
+
+                var start = $.fullCalendar.formatDate(event.start, 'Y-MM-DD HH:mm:ss');
+                var end = $.fullCalendar.formatDate(event.end, 'Y-MM-DD HH:mm:ss');
+                var title = title;
                 var id = event.id;
                 $.ajax({
                     url:"/calendar/action",
                     type:"POST",
                     data:{
-                        id:id,
-                        type:"delete"
+                        title: title,
+                        start: start,
+                        end: end,
+                        id: id,
+                        type: 'update'
                     },
                     success:function(response)
                     {
                         calendar.fullCalendar('refetchEvents');
-                        alert("Retiré avec succès!");
-                    }
+                        alert("Event Updated Successfully");
+                    }                
                 })
             }
         }
     });
-
 });
   
 </script>
